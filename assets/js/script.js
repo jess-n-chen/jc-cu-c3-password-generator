@@ -3,15 +3,55 @@
 var generateBtn = document.querySelector("#generate");
 
 // Possible Character Choices
-var lowercaseChar = "abcdefghijklmnopqrstuvwxyz";
-var uppercaseChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-var numbers = "0123456789";
-var specialChar = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+var charChoices = [
+  "abcdefghijklmnopqrstuvwxyz",
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "0123456789",
+  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~",
+];
 
-function charType() {
-  var promptLower = prompt(
-    "Would you like your password to include lowercase characters?"
-  );
+// Corresponding Character Questions
+var charQuestions = [
+  "Would you like your password to include Lowercase Characters?",
+  "Would you like your password to include Uppercase Characters?",
+  "Would you like your password to include Numbers?",
+  "Would you like your password to include Special Characters?",
+];
+
+function charType(len) {
+  var passwordOptions = "";
+  var passwordValue = "";
+  for (var i = 0; i < charQuestions.length; i++) {
+    var promptQues = prompt(`${charQuestions[i]} Enter Y for Yes or N for No`);
+
+    switch (promptQues.toLowerCase()) {
+      case "y":
+        passwordOptions += charChoices[i];
+        console.log(passwordOptions);
+        break;
+      case "n":
+        break;
+      default:
+        alert("You did not enter a valid option. Please try again!");
+        i--;
+        break;
+    }
+  }
+
+  if (!passwordOptions) {
+    alert(
+      "You must select one character type to include (lowercase, uppercase, numeric, and/or special characters. Please try again!"
+    );
+    charType();
+  } else {
+    for (var i = 0; i < len; i++) {
+      passwordValue += passwordOptions.charAt(Math.floor(Math.random() * len));
+    }
+  }
+
+  console.log(passwordValue);
+
+  return passwordValue;
 }
 
 function generatePassword() {
@@ -21,7 +61,7 @@ function generatePassword() {
   );
 
   // Check for Valid Answer
-  if (promptLength === "" || promptLength === null || isNaN(promptLength)) {
+  if (!promptLength || isNaN(promptLength)) {
     alert("A valid number was not provided. Please try again!");
     return generatePassword();
   } else if (promptLength < 8 || promptLength > 128) {
@@ -30,8 +70,10 @@ function generatePassword() {
     );
     return generatePassword();
   } else {
-    charType();
+    passwordResult = charType(promptLength);
   }
+
+  return passwordResult;
 }
 
 // Write password to the #password input
