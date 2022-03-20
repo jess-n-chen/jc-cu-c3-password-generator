@@ -3,7 +3,7 @@
 ## Columbia University Bootcamp - JavaScript Challenge: Password Generator
 
 > This repository contains my password generator application that helps employees generate a random password based on their desired criteria.
-> Live Site:
+> Live Site: https://jess-n-chen.github.io/jc-cu-c3-password-generator/
 
 ## Table of Contents
 
