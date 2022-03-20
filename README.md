@@ -49,6 +49,10 @@ THEN the password is either displayed in an alert or written to the page
 
 ## Screenshots
 
+![Password Generator](./assets/images/password_generator.png)
+![Password Generator Prompt](./assets/images/password_generator_prompt.png)
+![Password Generator Output](./assets/images/password_generator_output.png)
+
 ## Source Code
 
 Source Code Reference: https://github.com/coding-boot-camp/friendly-parakeet
