@@ -27,7 +27,6 @@ function charType(len) {
     switch (promptQues.toLowerCase()) {
       case "y":
         passwordOptions += charChoices[i];
-        console.log(passwordOptions);
         break;
       case "n":
         break;
@@ -45,11 +44,11 @@ function charType(len) {
     charType();
   } else {
     for (var i = 0; i < len; i++) {
-      passwordValue += passwordOptions.charAt(Math.floor(Math.random() * len));
+      passwordValue += passwordOptions.charAt(
+        Math.floor(Math.random() * (passwordOptions.length - 1))
+      );
     }
   }
-
-  console.log(passwordValue);
 
   return passwordValue;
 }
