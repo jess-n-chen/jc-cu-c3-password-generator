@@ -2,31 +2,51 @@
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
-// Possible Character Choices
-var charChoices = [
-  "abcdefghijklmnopqrstuvwxyz",
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  "0123456789",
-  "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~",
+// Possible Character Options and Corresponding Questions
+var charOptions = [
+  {
+    option: "abcdefghijklmnopqrstuvwxyz",
+    question: "Would you like your password to include Lowercase Characters?",
+  },
+  {
+    option: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    question: "Would you like your password to include Uppercase Characters?",
+  },
+  {
+    option: "0123456789",
+    question: "Would you like your password to include Numbers?",
+  },
+  {
+    option: "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~",
+    question: "Would you like your password to include Special Characters?",
+  },
 ];
 
-// Corresponding Character Questions
-var charQuestions = [
-  "Would you like your password to include Lowercase Characters?",
-  "Would you like your password to include Uppercase Characters?",
-  "Would you like your password to include Numbers?",
-  "Would you like your password to include Special Characters?",
-];
-
-function charType(len) {
-  var passwordOptions = "";
+// Function to generate random password from Character Types selected
+function getRandomPassword(options, passLength) {
   var passwordValue = "";
-  for (var i = 0; i < charQuestions.length; i++) {
-    var promptQues = prompt(`${charQuestions[i]} Enter Y for Yes or N for No`);
+
+  for (var i = 0; i < passLength; i++) {
+    passwordValue += options.charAt(
+      Math.floor(Math.random() * (options.length - 1))
+    );
+  }
+
+  return passwordValue;
+}
+
+// Function to loop through the possible character options
+function getPasswordOptions() {
+  var passwordOption = "";
+
+  for (var i = 0; i < charOptions.length; i++) {
+    var promptQues = prompt(
+      `${charOptions[i].question} Enter Y for Yes or N for No`
+    );
 
     switch (promptQues.toLowerCase()) {
       case "y":
-        passwordOptions += charChoices[i];
+        passwordOption += charOptions[i].option;
         break;
       case "n":
         break;
@@ -37,22 +57,32 @@ function charType(len) {
     }
   }
 
-  if (!passwordOptions) {
-    alert(
-      "You must select one character type to include (lowercase, uppercase, numeric, and/or special characters. Please try again!"
-    );
-    charType();
-  } else {
-    for (var i = 0; i < len; i++) {
-      passwordValue += passwordOptions.charAt(
-        Math.floor(Math.random() * (passwordOptions.length - 1))
+  return passwordOption;
+}
+
+// Function to ask user for desired password criteria and generate password with desired length
+function charType(passLength) {
+  var passwordOptions = "";
+
+  // Ask user for desired password criteria
+  while (!passwordOptions) {
+    passwordOptions = getPasswordOptions();
+
+    // Validation to ensure at least one character type is selected
+    if (!passwordOptions) {
+      alert(
+        "You must select one character type to include (lowercase, uppercase, numeric, and/or special characters. Please try again!"
       );
     }
   }
 
-  return passwordValue;
+  // Generate password with desired length
+  var finalPassword = getRandomPassword(passwordOptions, passLength);
+
+  return finalPassword;
 }
 
+// Function to start the password generation flow
 function generatePassword() {
   // Ask user how long they would like the password to be
   var promptLength = prompt(
@@ -69,6 +99,7 @@ function generatePassword() {
     );
     return generatePassword();
   } else {
+    // Calls function to ask user for password criteria and generates password
     passwordResult = charType(promptLength);
   }
 
@@ -80,6 +111,7 @@ function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
+  // Displays Password Value on Screen
   passwordText.value = password;
 }
 
